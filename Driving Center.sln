@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Driving Center", "Driving Center\Driving Center.csproj", "{554D6016-6717-4EA4-B687-677809BCE794}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "practecing_video", "..\practecing_video\practecing_video\practecing_video.csproj", "{C867E40D-73DA-4908-B70E-522F2F9CBCE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{554D6016-6717-4EA4-B687-677809BCE794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554D6016-6717-4EA4-B687-677809BCE794}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554D6016-6717-4EA4-B687-677809BCE794}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554D6016-6717-4EA4-B687-677809BCE794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C867E40D-73DA-4908-B70E-522F2F9CBCE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C867E40D-73DA-4908-B70E-522F2F9CBCE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C867E40D-73DA-4908-B70E-522F2F9CBCE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C867E40D-73DA-4908-B70E-522F2F9CBCE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD4B5CE5-335E-491A-9591-923DDA790C9A}
+	EndGlobalSection
+EndGlobal
