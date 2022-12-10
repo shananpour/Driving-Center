@@ -28,11 +28,7 @@ namespace Driving_Center
             string price = Console.ReadLine();
             Console.WriteLine("Enter numberPlate");
             string numberPlate = Console.ReadLine();
-           /* Program.machinearray.Add(model);
-            Program.machinearray.Add(brand);
-            Program.machinearray.Add(ProductionYear);
-            Program.machinearray.Add(price);
-            Program.machinearray.Add(numberPlate);*/
+
 
             machinetarray[machinecounter, 0] = model;
             machinetarray[machinecounter, 1] = brand;
