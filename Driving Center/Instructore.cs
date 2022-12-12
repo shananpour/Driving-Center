@@ -1,50 +1,56 @@
-﻿using driving_center;
+using driving_center;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Driving_Center
 {
-    internal class Instructore
+    public class Instructore
     {
         public string firstName;
         public string lastName;
-        public int instructoreCode;
-        public int nationalCode;
+        public string nationalCode;
+        public string instructoreCode;
         public string document;
 
-        public int registreation(int instructioncounter, string[,] instructorarray)
+        public void Registreation()
 
         {
-            Console.WriteLine("Enter firstName");
-            instructorarray[instructioncounter, 0] = Console.ReadLine();
-            Console.WriteLine("Enter lastName");
-            instructorarray[instructioncounter, 1] = Console.ReadLine();
-            Console.WriteLine("Enter instructoreCode");
-            instructorarray[instructioncounter, 2] = Console.ReadLine();
+            Console.WriteLine("Enter FirstName");
+            string firstName = Console.ReadLine();
+
+            Console.WriteLine("Enter LastName");
+            string lastName = Console.ReadLine();
+
             Console.WriteLine("Enter nationalCode");
-            instructorarray[instructioncounter, 3] = Console.ReadLine();
+            string nationalCode = Console.ReadLine();
+
+            Console.WriteLine("Enter instructoreCode");
+            string instructoreCode = Console.ReadLine();
+
             Console.WriteLine("Enter document");
-            instructorarray[instructioncounter, 4] = Console.ReadLine();
-            instructioncounter++;
-            // Program.students.Add()
-            return instructioncounter;
-         }
-        public void list(int instructioncounter,string[,] instructorarray)
+            string document = Console.ReadLine();
+
+            Program.instructoreList.Add(new Instructore { firstName = firstName, lastName = lastName, nationalCode = nationalCode, instructoreCode = instructoreCode, document = document });
+        }
+        public void List()
         {
-           
-            for (int i = 0; i <= instructioncounter; i++)
+
+            for (int j = 0; j < Program.instructoreList.Count; j++)
             {
-                for (int j = 0; j < instructorarray.GetLength(1); j++)
-                {
-                    Console.Write(instructorarray[i, j] + "  ");
-                }
-                Console.WriteLine(" ");
+
+                Console.Write(Program.instructoreList[j].firstName + "  ");
+                Console.Write(Program.instructoreList[j].lastName + "  ");
+                Console.Write(Program.instructoreList[j].nationalCode + "  ");
+                Console.Write(Program.instructoreList[j].instructoreCode + "  ");
+                Console.WriteLine(Program.instructoreList[j].document);
+
             }
         }
-        private int search(string snationalcode,int instructioncounter, string[,] instructorarray)
+        private int search(string snationalcode, int instructioncounter, string[,] instructorarray)
         {
             int numberofsatr = -1;
             for (int i = 0; i <= instructioncounter; i++)
@@ -69,37 +75,63 @@ namespace Driving_Center
             }
             return numberofsatr;
         }
-        public void Edite(string snationalcode,int instructioncounter, string[,] instructorarray)
+        public void Edite()
         {
-            int i = search(snationalcode, instructioncounter, instructorarray);
-            if (i != -1)
+            Console.WriteLine("Please Enter National Code");
+            nationalCode = Console.ReadLine();
+
+            bool thereIsNational = Program.instructoreList.Exists(x => x.nationalCode == nationalCode);
+
+            if (thereIsNational == true)
             {
-                Console.Write("Enter FirstName  ");
-                instructorarray[i, 0] = Console.ReadLine();
-                Console.Write("Enter LasttName  ");
-                instructorarray[i, 1] = Console.ReadLine();
-                Console.Write("Enter instructoreCode  ");
-                instructorarray[i, 2] = Console.ReadLine();
-                Console.Write("Enter document  ");
-                instructorarray[i, 4] = Console.ReadLine();
+                var studentElement = from s in Program.instructoreList
+                                     where s.nationalCode == nationalCode
+                                     select s;
+
+                Console.WriteLine("Enter  FirstName");
+                firstName = Console.ReadLine();
+                Console.WriteLine("Enter LastName");
+                lastName = Console.ReadLine();
+                Console.WriteLine("Enter instructoreCode ");
+                instructoreCode = Console.ReadLine();
+                Console.WriteLine("Enter document ");
+                document = Console.ReadLine();
+
+                foreach (var stu in studentElement)
+                {
+                    stu.firstName = firstName;
+                    stu.lastName = lastName;
+                    stu.instructoreCode = instructoreCode;
+                    stu.document = document;
+                }
+            }
+            else
+            {
+                Console.WriteLine("There Is No Instructore With This National Code");
             }
         }
-        public int Delete(string snationalcode, int instructioncounter,string[,] instructorarray)
+        public void Delete()
         {
-            int i = search(snationalcode, instructioncounter, instructorarray);
-            if (i != -1)
-            {
-                for (int j = 0; j < 5; j++)
-                    instructorarray[i, j] = null;
+            Console.WriteLine("Please Enter National Code  ");
+            nationalCode = Console.ReadLine();
 
-                for (int c = i; c < instructioncounter; c++)
+            var stuntElement = from s in Program.instructoreList
+                               where s.nationalCode == nationalCode
+                               select s;
+            int find = 0;
+            for (int counter = 0; counter < Program.instructoreList.Count; counter++)
+            {
+                if (Program.instructoreList[counter].nationalCode == nationalCode)
                 {
-                    for (int j = 0; j < 5; j++)
-                        instructorarray[c, j] = instructorarray[c + 1, j];
+                    Program.instructoreList.RemoveAt(counter);
+                    find =1   ;
                 }
-                instructioncounter--;
             }
-            return instructioncounter;
+            if (find == 0)
+                Console.WriteLine("there is no Instructore whith this national Number");
+            else
+
+                Console.WriteLine(" Instructore Details Deleted");
         }
     }
 }
