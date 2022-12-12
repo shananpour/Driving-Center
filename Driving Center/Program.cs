@@ -12,7 +12,7 @@ using System.IO;
 
 namespace driving_center
 {
-    public class Program
+    public static class Program
 
     {
         public static List<Student> studentList = new List<Student>();
@@ -123,7 +123,7 @@ namespace driving_center
             Student student = new Student();
             bool secondMenuContinue = true;
             string backControl = "1";
-            int numberChooseMenu2;
+            int numberChooseMenu;
             while (secondMenuContinue)
             {
                 if (backControl == "1")
@@ -131,9 +131,9 @@ namespace driving_center
                     Console.Clear();
                 }
 
-                numberChooseMenu2 = Menu("student", isMainMenu);
+                numberChooseMenu = Menu("student", isMainMenu);
 
-                switch (numberChooseMenu2)
+                switch (numberChooseMenu)
                 {
                     case 1:
                         student.Registreation();
@@ -178,7 +178,7 @@ namespace driving_center
                     Console.Clear();
                 }
 
-                numberChooseMenu = Menu("Driving Term", ismainmenu);
+                numberChooseMenu = Menu("Driving Term", isMainMenu);
 
                 switch (numberChooseMenu)
                 {
@@ -195,7 +195,7 @@ namespace driving_center
                         drivingTerm.Delete();
                         break;
                     case 5:
-                        ismainmenu = 1;
+                        isMainMenu = 1;
                         secondMenuContinue = false;
                         break;
 
@@ -211,13 +211,13 @@ namespace driving_center
                 }
             }
         }
-        static int Menu(string input, int ismainmenu)
+        static int Menu(string input, int isMainMenu)
         {
             int number = 0;
-            bool menucontineu = true;
+            bool menuContineu = true;
             do
             {
-                if (ismainmenu == 1)
+                if (isMainMenu == 1)
                 {
                     Console.WriteLine("1. Machine");
                     Console.WriteLine("2.Instructor");
@@ -247,7 +247,7 @@ namespace driving_center
                     }
                     else
                     {
-                        menucontineu = false;
+                        menuContineu = false;
 
                     }
                 }
@@ -257,7 +257,7 @@ namespace driving_center
                     Console.WriteLine(e.Message +" Please Just Insert A Number ");
 
                 }
-            } while (menucontineu);
+            } while (menuContineu);
             return number;
         }
         static void Main(string[] arg)
@@ -272,7 +272,7 @@ namespace driving_center
             {
                 int numberChooseMenu = Menu("", 1);
                 isMainMenu = 0;
-                int numberChooseMenu2;
+             //   int numberChooseMenu2;
                 switch (numberChooseMenu)
                 {
                     case 1:
