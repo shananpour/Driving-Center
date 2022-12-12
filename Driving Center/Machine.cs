@@ -1,117 +1,130 @@
-﻿using driving_center;
+using driving_center;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Driving_Center
 {
-    class Machine
+    public class Machine
     {
         public string model;
         public string brand;
+        public string numberPlate;
         public string ProductionYear;
         public string price;
-        public string numberPlate;
 
-        public int registreation( int machinecounter, string[,] machinetarray)
+
+        public void Registreation()
         {
             Console.WriteLine("Enter model");
-            string model = Console.ReadLine();
+            model = Console.ReadLine();
             Console.WriteLine("Enter brand");
-            string brand = Console.ReadLine();
-            Console.WriteLine("Enter ProductionYear");
-            string ProductionYear = Console.ReadLine();
-            Console.WriteLine("Enter price");
-            string price = Console.ReadLine();
+            brand = Console.ReadLine();
             Console.WriteLine("Enter numberPlate");
-            string numberPlate = Console.ReadLine();
+            numberPlate = Console.ReadLine();
+            Console.WriteLine("Enter ProductionYear");
+            ProductionYear = Console.ReadLine();
+            Console.WriteLine("Enter price");
+            price = Console.ReadLine();
 
+            Program.machineList.Add(new Machine { model = model, brand = brand, numberPlate = numberPlate, ProductionYear = ProductionYear, price = price });
 
-            machinetarray[machinecounter, 0] = model;
-            machinetarray[machinecounter, 1] = brand;
-            machinetarray[machinecounter, 2] = ProductionYear;
-            machinetarray[machinecounter, 3] = price;
-            machinetarray[machinecounter, 4] = numberPlate;
-            machinecounter++;
-            
-            return machinecounter;
-           
         }
 
-       public void list(string[,] machinetarray, int machinecounter)
+        public void List()
         {
-            //int count=Program.machinearray.Count;
-          //  for(int i=0; i< count;i++) 
-         
+            for (int j = 0; j < Program.machineList.Count; j++)
+            {
+
+                Console.Write(Program.machineList[j].model + "  ");
+                Console.Write(Program.machineList[j].brand + "  ");
+                Console.Write(Program.machineList[j].numberPlate + "  ");
+                Console.Write(Program.machineList[j].ProductionYear + "  ");
+                Console.WriteLine(Program.machineList[j].price);
+
+            }
+        }
+
+        private int search(string numberPlate, string[,] machinetarray, int machinecounter)
+        {
+            int numberofrow = -1;
             for (int i = 0; i <= machinecounter; i++)
             {
                 for (int j = 0; j < machinetarray.GetLength(1); j++)
                 {
-                    Console.Write(machinetarray[i, j] + "  ");
-                }
-                Console.WriteLine(" ");
-            }
-           /* foreach(string i in machinetarray)
-            {
-                Console.WriteLine(i);
-            }*/
-        }
-
-        private int search(string numberPlate, string[,] machinetarray, int machinecounter)
-        { 
-             int numberofrow = -1;
-            Console.WriteLine(numberofrow);
-            for (int i = 0; i <= machinecounter; i++)
-              {
-                  for (int j = 0; j < machinetarray.GetLength(1); j++)
-                  {
-                      if (machinetarray[i, j] == numberPlate)
-                      {
+                    if (machinetarray[i, j] == numberPlate)
+                    {
                         numberofrow = i;
-                          j = machinetarray.GetLength(1) + 1;
-                          i = machinecounter + 1;
-                        Console.WriteLine(numberofrow);
+                        j = machinetarray.GetLength(1) + 1;
+                        i = machinecounter + 1;
                     }
 
-                  }
-              }
+                }
+            }
             return numberofrow;
         }
 
-        public void Edite(string numberPlate, string[,] machinetarray, int machinecounter)
+        public void Edite()
         {
-            int i = search(numberPlate, machinetarray, machinecounter);
-            if (i != -1)
+            Console.WriteLine("Please Enter numberPlate");
+            numberPlate = Console.ReadLine();
+
+            bool thereIsNational = Program.machineList.Exists(x => x.numberPlate == numberPlate);
+
+            if (thereIsNational == true)
             {
-                Console.Write("Enter model ");
-                machinetarray[i, 0] = Console.ReadLine();
-                Console.Write("Enter brand ");
-                machinetarray[i, 1] = Console.ReadLine();
-                Console.Write("Enter ProductionYear ");
-                machinetarray[i, 2] = Console.ReadLine();
-                Console.Write("Enter price ");
-                machinetarray[i, 3] = Console.ReadLine();
+                var studentElement = from s in Program.machineList
+                                     where s.numberPlate == numberPlate
+                                     select s;
+
+                Console.WriteLine("Enter  model");
+                model = Console.ReadLine();
+                Console.WriteLine("Enter brand");
+                brand = Console.ReadLine();
+                Console.WriteLine("Enter ProductionYear ");
+                ProductionYear = Console.ReadLine();
+                Console.WriteLine("Enter price ");
+                price = Console.ReadLine();
+
+                foreach (var stu in studentElement)
+                {
+                    stu.model = model;
+                    stu.brand = brand;
+                    stu.ProductionYear = ProductionYear;
+                    stu.price = price;
+                }
+            }
+            else
+            {
+                Console.WriteLine("There Is No Machine With This Number Plate");
             }
         }
-        public int Delete(string numberPlate, string[,] machinetarray, int machinecounter)
+        public void Delete()
         {
-            int i = search(numberPlate, machinetarray, machinecounter);
-            if (i != -1)
-            {
-                for (int j = 0; j < 5; j++)
-                    machinetarray[i, j] = null;
+            Console.WriteLine("Please Entern Nmber Plate  ");
+            numberPlate = Console.ReadLine();
 
-                for (int c = i; c < machinecounter; c++)
+            var stuntElement = from s in Program.machineList
+                               where s.numberPlate == numberPlate
+                               select s;
+            int find = 0;
+            for (int counter = 0; counter < Program.machineList.Count; counter++)
+            {
+                if (Program.machineList[counter].numberPlate == numberPlate)
                 {
-                    for (int j = 0; j < 5; j++)
-                        machinetarray[c, j] = machinetarray[c + 1, j];
+                    Program.machineList.RemoveAt(counter);
+                    find = 1;
                 }
-                machinecounter--;
             }
-            return machinecounter;
+            if (find == 0)
+                Console.WriteLine("there is no Machine whith this Nmber Plate ");
+            else
+                Console.WriteLine(" Machine Details Deleted");
         }
     }
 }
