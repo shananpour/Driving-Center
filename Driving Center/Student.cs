@@ -1,112 +1,109 @@
-﻿using driving_center;
+using driving_center;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Collections.Generic;
 namespace Driving_Center
 {
-    class Student
+    public class Student
     {
-        public string FirstName;
-        public string LastName;
-        private int nationalCode;
-        public string BirthDate;
+        public string firstName;
+        public string lastName;
+        public string nationalCode { get; set; }
+        public string birthDate;
 
-         public int NationalCode
+
+        public void Registreation()
         {
-            get { return nationalCode; }
-            set { nationalCode = value; }
-        }
-        public int registreation(int studentcounter, string[,] studentarray)
-        {
-            Console.WriteLine("Enter name");
+            Console.WriteLine("Enter FirstName");
             string firstName = Console.ReadLine();
-            Console.WriteLine("Enter last");
+
+            Console.WriteLine("Enter LastName");
             string lastName = Console.ReadLine();
-            Console.WriteLine("Enter national code");
+
+            Console.WriteLine("Enter NationalCode");
+            string code = Console.ReadLine();
+
+            Console.WriteLine("Enter Birth Date");
+            string date = Console.ReadLine();
+
+            Program.studentList.Add(new Student { firstName = firstName, lastName = lastName, nationalCode = code, birthDate = date });
+
+        }
+
+        public void List()
+        {
+            for (int j = 0; j < Program.studentList.Count; j++)
+            {
+
+                Console.Write(Program.studentList[j].firstName + "  ");
+                Console.Write(Program.studentList[j].lastName + "  ");
+                Console.Write(Program.studentList[j].nationalCode + "  ");
+                Console.WriteLine(Program.studentList[j].birthDate);
+
+            }
+        }
+        private  void search(string snationalcode,int studentcounter, string[,] studentarray)
+        {
+        }
+        public void Edite()
+        {
+            Console.WriteLine("Please Enter National Code");
             string nationalCode = Console.ReadLine();
-            Console.WriteLine("Enter birth date");
-            string birthDate = Console.ReadLine();
 
-            studentarray[studentcounter, 0] = firstName;
-            studentarray[studentcounter, 1] = lastName;
-            studentarray[studentcounter, 2] = nationalCode;
-            studentarray[studentcounter, 3] = birthDate;
-            studentcounter++;
-             return studentcounter;
-            //   Program.students.Add(firstName);
+            bool thereIsNational = Program.studentList.Exists(x => x.nationalCode == nationalCode);
 
-        }
-
-        public void list(int studentcounter, string[,] studentarray)
-        {
-
-            for (int i = 0; i <= studentcounter; i++)
+            if (thereIsNational == true)
             {
-                for (int j = 0; j < studentarray.GetLength(1); j++)
+                var studentElement = from s in Program.studentList
+                                     where s.nationalCode == nationalCode
+                                     select s;
+
+                Console.WriteLine("Enter  irstName");
+                firstName = Console.ReadLine();
+                Console.WriteLine("Enter LastName");
+                lastName = Console.ReadLine();
+                Console.WriteLine("Enter Birth Date");
+                birthDate = Console.ReadLine();
+
+                foreach (var stu in studentElement)
                 {
-                    Console.Write(studentarray[i, j] + "  ");
+                    stu.firstName = firstName;
+                    stu.lastName = lastName;
+                    stu.birthDate = birthDate;
                 }
-                Console.WriteLine(" ");
+            }
+            else
+            {
+                Console.WriteLine("There Is No Student With This National Code");
             }
         }
-        private  int search(string snationalcode,int studentcounter, string[,] studentarray)
+        public void Delete()
         {
-            int numberofsatr = -1;
-            for (int i = 0; i <= studentcounter; i++)
+            Console.WriteLine("Please Enter National Code  ");
+            nationalCode = Console.ReadLine();
+
+            var stuntElement = from s in Program.studentList
+                               where s.nationalCode == nationalCode
+                               select s;
+            int find = 0;
+            for (int counter = 0; counter < Program.studentList.Count; counter++)
             {
-                for (int j = 0; j < studentarray.GetLength(1); j++)
+                if (Program.studentList[counter].nationalCode == nationalCode)
                 {
-                    if (studentarray[i, j] == snationalcode)
-                    {
-                        numberofsatr = i;
-                        j = studentarray.GetLength(1) + 1;
-                        i = studentcounter + 1;
-
-                    }
-
+                    Program.studentList.RemoveAt(counter);
+                    find = 1;
                 }
-
             }
-            if (numberofsatr == -1)
-            {
+            if (find ==0)
                 Console.WriteLine("there is no student whith this national Number");
-                numberofsatr = -1;
-            }
-            return numberofsatr;
-        }
-        public void Edite(string snationalcode,int studentcounter, string[,] studentarray)
-        { 
-            int i = search(snationalcode, studentcounter, studentarray);
-            if (i != -1)
-            {
-                Console.Write("Enter FirstName  ");
-                studentarray[i, 0] = Console.ReadLine();
-                Console.Write("Enter LasttName  ");
-                studentarray[i, 1] = Console.ReadLine();
-                Console.Write("Enter birthday Date  ");
-                studentarray[i, 3] = Console.ReadLine();
-            }
-        }
-        public int Delete(string snationalcode, int studentcounter,string[,] studentarray)
-        {
-            int i = search(snationalcode, studentcounter, studentarray);
-            if(i != -1)
-            {
-                for(int j=0;j< 4; j++)
-                studentarray[i, j] = null;
-               
-                for(int c = i; c < studentcounter; c++)
-                {
-                    for (int j = 0; j < 4; j++)
-                        studentarray[c, j] = studentarray[c + 1, j];
-                }
-                studentcounter--;
-            }
-            return studentcounter;
+            else
+                Console.WriteLine(" student details deleted");
+           
         }
 
     }
