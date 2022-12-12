@@ -1,51 +1,49 @@
-﻿using System;
+using driving_center;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Driving_Center
 {
-    internal class DrivingTerm
+    public class DrivingTerm
     {
-        public string startdate;
-        public string enddate;
-        private int termcode;
-        public int stucode;
-        public int instructorcode;
+        public string startDate;
+        public string endDate;
+        public string termCode { get; set; }
+        public string studentCode;
+        public string instructorCode;
 
-        public int Termcode
-        {
-            get { return termcode; }
-            set { termcode = value; }
-        }
-        public int registreation(int termcounter, string[,] termarray)
-        {
-            Console.WriteLine("Enter startdate");
-            termarray[termcounter, 0] = Console.ReadLine();
-            Console.WriteLine("Enter enddate");
-            termarray[termcounter, 1] = Console.ReadLine();
-            Console.WriteLine("Enter termcode");
-            termarray[termcounter, 2] = Console.ReadLine();
-            Console.WriteLine("Enter stucode");
-            termarray[termcounter, 3] = Console.ReadLine();
-            Console.WriteLine("Enter instructorcode");
-            termarray[termcounter, 4] = Console.ReadLine();
-            termcounter++;
-            return termcounter;
 
+        public void Registreation()
+        {
+            Console.WriteLine("Enter Start Date");
+            startDate = Console.ReadLine();
+            Console.WriteLine("Enter End Date");
+            endDate = Console.ReadLine();
+            Console.WriteLine("Enter Term Code");
+            termCode = Console.ReadLine();
+            Console.WriteLine("Enter Student Code");
+            studentCode = Console.ReadLine();
+            Console.WriteLine("Enter Instructor Code");
+            instructorCode = Console.ReadLine();
+            Program.termList.Add(new DrivingTerm { startDate = startDate, endDate = endDate, termCode = termCode, studentCode = studentCode, instructorCode = instructorCode });
         }
 
-        public void list(int termcounter, string[,] termarray)
+        public void List()
         {
-
-            for (int i = 0; i <= termcounter; i++)
+            for (int j = 0; j < Program.termList.Count; j++)
             {
-                for (int j = 0; j < termarray.GetLength(1); j++)
-                {
-                    Console.Write(termarray[i, j] + "  ");
-                }
-                Console.WriteLine(" ");
+
+                Console.Write(Program.termList[j].startDate + "  ");
+                Console.Write(Program.termList[j].endDate + "  ");
+                Console.Write(Program.termList[j].termCode + "  ");
+                Console.Write(Program.termList[j].studentCode + "  ");
+                Console.WriteLine(Program.termList[j].instructorCode);
+
             }
         }
         private int search(string termcode, int termcounter, string[,] termarray)
@@ -73,38 +71,62 @@ namespace Driving_Center
             }
             return numberofsatr;
         }
-        public void Edite(string termcode, int termcounter, string[,] termarray)
+        public void Edite()
         {
-            int i = search(termcode, termcounter, termarray);
-            if (i != -1)
-            {
-                Console.Write("Enter FirstName");
-                termarray[i, 0] = Console.ReadLine();
-                Console.Write("Enter LasttName");
-                termarray[i, 1] = Console.ReadLine();
-                Console.Write("Enter birthday Date");
-                termarray[i, 3] = Console.ReadLine();
-            }
-        }
-        public int Delete(string termcode, int termcounter, string[,] termarray)
-        {
-            int i = search(termcode, termcounter, termarray);
-            if (i != -1)
-            {
-                for (int j = 0; j < 5; j++)
-                    termarray[i, j] = null;
+            Console.WriteLine("Please Enter Term Code");
+            termCode = Console.ReadLine();
 
-                for (int c = i; c < termcounter; c++)
+            bool thereIsNational = Program.termList.Exists(x => x.termCode == termCode);
+
+            if (thereIsNational == true)
+            {
+                var studentElement = from s in Program.termList
+                                     where s.termCode == termCode
+                                     select s;
+
+                Console.WriteLine("Enter  Start Date");
+                startDate = Console.ReadLine();
+                Console.WriteLine("Enter End Date");
+                endDate = Console.ReadLine();
+                Console.WriteLine("Enter Student Code ");
+                studentCode = Console.ReadLine();
+                Console.WriteLine("Enter Instructor Code ");
+                instructorCode = Console.ReadLine();
+
+                foreach (var stu in studentElement)
                 {
-                    for (int j = 0; j < 5; j++)
-                        termarray[c, j] = termarray[c + 1, j];
+                    stu.startDate = startDate;
+                    stu.endDate = endDate;
+                    stu.studentCode = studentCode;
+                    stu.instructorCode = instructorCode;
                 }
-                termcounter--;
             }
-            return termcounter;
+
+
         }
 
+        public void Delete()
+        {
+            Console.WriteLine("Please Entern Term Codete  ");
+            termCode = Console.ReadLine();
+
+            var stuntElement = from s in Program.termList
+                               where s.termCode == termCode
+                               select s;
+            int find = 0;
+            for (int counter = 0; counter < Program.termList.Count; counter++)
+            {
+                if (Program.termList[counter].termCode == termCode)
+                {
+                    Program.termList.RemoveAt(counter);
+                    find = 1;
+                }
+            }
+            if (find == 0)
+                Console.WriteLine("there is no Machine whith this Nmber Plate ");
+            else
+                Console.WriteLine(" Driving Term Details Deleted");
+
+        }
     }
-
-
 }
