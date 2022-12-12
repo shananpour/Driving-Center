@@ -165,7 +165,7 @@ namespace driving_center
             }
 
         }
-        static void TermItem(int ismainmenu)
+        static void TermItem(int isMainMenu)
         {
             DrivingTerm drivingTerm = new DrivingTerm();
             bool secondMenuContinue = true;
@@ -200,7 +200,7 @@ namespace driving_center
                         break;
 
                 }
-                if (ismainmenu == 0)
+                if (isMainMenu == 0)
                 {
                     do
                     {
