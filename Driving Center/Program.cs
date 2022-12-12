@@ -1,4 +1,4 @@
-﻿using Driving_Center;
+using Driving_Center;
 using Microsoft.Win32;
 using System;
 using System.Collections;
@@ -6,215 +6,197 @@ using System.Diagnostics.Metrics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using static System.Net.Mime.MediaTypeNames;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 
 namespace driving_center
 {
     public class Program
 
     {
-        //  public static ArrayList machinearray = new ArrayList();
-        static int Machineitem(int ismainmenu, int machinecounter, string[,] machinearray)
+        public static List<Student> studentList = new List<Student>();
+        public static List<Instructore> instructoreList = new List<Instructore>();
+        public static List<Machine> machineList = new List<Machine>();
+        public static List<DrivingTerm> termList = new List<DrivingTerm>();
+        static void MachineItem(int isMainMenu)
         {
-            // machinecounter = machinearray.Count;
             Machine machine = new Machine();
 
-            Instructore instructor = new Instructore();
-            bool secondmenucontinue = true;
-            string backcontrol = "1";
-            int numberchoosemenu2;
-            while (secondmenucontinue)
+
+            bool secondmMenuContinue = true;
+            string backControl = "1";
+            int numberChooseMenu;
+            while (secondmMenuContinue)
             {
-                if (backcontrol == "1")
+                if (backControl == "1")
                 {
                     Console.Clear();
                 }
 
-                numberchoosemenu2 = Menu("Machine", ismainmenu);
+                numberChooseMenu = Menu("Machine", isMainMenu);
 
-                switch (numberchoosemenu2)
+                switch (numberChooseMenu)
                 {
                     case 1:
-                        machinecounter = machine.registreation(machinecounter, machinearray);
+                        machine.Registreation();
                         break;
 
                     case 2:
-                        machine.list(machinearray, machinecounter);
-
+                        machine.List();
                         break;
                     case 3:
-                        Console.WriteLine("Enter numberPlate");
-                        string numberPlate = Console.ReadLine();
-                        machine.Edite(numberPlate, machinearray, machinecounter);
+                        machine.Edite();
                         break;
                     case 4:
-                        Console.WriteLine("Enter numberPlate");
-                        numberPlate = Console.ReadLine();
-                        machinecounter = machine.Delete(numberPlate, machinearray, machinecounter);
-
+                        machine.Delete();
                         break;
                     case 5:
-                        ismainmenu = 1;
-                        secondmenucontinue = false;
+                        isMainMenu = 1;
+                        secondmMenuContinue = false;
                         break;
 
                 }
-                if (ismainmenu == 0)
+                if (isMainMenu == 0)
                 {
                     do
                     {
                         Console.WriteLine("Enter NUMBER 1 TO BACK");
-                        backcontrol = Console.ReadLine();
+                        backControl = Console.ReadLine();
 
-                    } while (backcontrol != "1");
+                    } while (backControl != "1");
                 }
 
             }
 
-            return machinecounter;
         }
-        static int instructoritem(int ismainmenu, int instructioncounter, string[,] instructorarray)
+        static void InstructorItem(int isMainMenu)
         {
             Instructore instructor = new Instructore();
-            bool secondmenucontinue = true;
-            string backcontrol = "1";
-            int numberchoosemenu2;
-            int machinecounter = 0;
-            while (secondmenucontinue)
+            bool secondMenuContinue = true;
+            string backControl = "1";
+            int numberChooseMenu;
+            //  int machinecounter = 0;
+            while (secondMenuContinue)
             {
-                if (backcontrol == "1")
+                if (backControl == "1")
                 {
                     Console.Clear();
                 }
 
-                numberchoosemenu2 = Menu("Instructor", ismainmenu);
+                numberChooseMenu = Menu("Instructor", isMainMenu);
 
-                switch (numberchoosemenu2)
+                switch (numberChooseMenu)
                 {
                     case 1:
-                        instructioncounter = instructor.registreation(instructioncounter, instructorarray);
+                        instructor.Registreation();
                         break;
-
                     case 2:
-                        instructor.list(instructioncounter, instructorarray);
+                        instructor.List();
                         break;
                     case 3:
-                        Console.WriteLine("Enter nationalcode");
-                        string nationalcode = Console.ReadLine();
-                        instructor.Edite(nationalcode, instructioncounter, instructorarray);
+                        instructor.Edite();
                         break;
                     case 4:
-                        Console.WriteLine("Enter nationalcode");
-                        nationalcode = Console.ReadLine();
-                        instructioncounter = instructor.Delete(nationalcode, instructioncounter, instructorarray);
-
+                        instructor.Delete();
                         break;
                     case 5:
-                        ismainmenu = 1;
-                        secondmenucontinue = false;
+                        isMainMenu = 1;
+                        secondMenuContinue = false;
                         break;
 
                 }
-                if (ismainmenu == 0)
+                if (isMainMenu == 0)
                 {
                     do
                     {
                         Console.WriteLine("Enter NUMBER 1 TO BACK");
-                        backcontrol = Console.ReadLine();
+                        backControl = Console.ReadLine();
 
-                    } while (backcontrol != "1");
+                    } while (backControl != "1");
                 }
             }
-            return instructioncounter;
+
         }
-        static int Studentitem(int ismainmenu, int studentcounter, string[,] studentarray)
+        static void StudentItem(int isMainMenu)
         {
             Student student = new Student();
-            bool secondmenucontinue = true;
-            string backcontrol = "1";
-            int numberchoosemenu2;
-            while (secondmenucontinue)
+            bool secondMenuContinue = true;
+            string backControl = "1";
+            int numberChooseMenu2;
+            while (secondMenuContinue)
             {
-                if (backcontrol == "1")
+                if (backControl == "1")
                 {
                     Console.Clear();
                 }
 
-                numberchoosemenu2 = Menu("student", ismainmenu);
+                numberChooseMenu2 = Menu("student", isMainMenu);
 
-                switch (numberchoosemenu2)
+                switch (numberChooseMenu2)
                 {
                     case 1:
-                        studentcounter = student.registreation(studentcounter, studentarray);
+                        student.Registreation();
                         break;
-
                     case 2:
-                        student.list(studentcounter, studentarray);
+                        student.List();
                         break;
                     case 3:
-                        Console.WriteLine("please enter nationalcode  ");
-                        string nationalcode = Console.ReadLine();
-                        student.Edite(nationalcode, studentcounter, studentarray);
+                        student.Edite();
                         break;
                     case 4:
-                        Console.WriteLine("please enter nationalcode  ");
-                        nationalcode = Console.ReadLine();
-                        studentcounter = student.Delete(nationalcode, studentcounter, studentarray);
+                        student.Delete();
                         break;
                     case 5:
-                        ismainmenu = 1;
-                        secondmenucontinue = false;
+                        isMainMenu = 1;
+                        secondMenuContinue = false;
                         break;
-
                 }
-                if (ismainmenu == 0)
+                if (isMainMenu == 0)
                 {
+                    Console.WriteLine("Enter NUMBER 1 TO BACK");
                     do
                     {
+                        backControl = Console.ReadLine();
+                        Console.Clear();
                         Console.WriteLine("Enter NUMBER 1 TO BACK");
-                        backcontrol = Console.ReadLine();
-
-                    } while (backcontrol != "1");
+                    } while (backControl != "1");
                 }
             }
-            return studentcounter;
 
         }
-        static int termitem(int ismainmenu,int termcounter,string[,] termarray) {
-            DrivingTerm drivingTerm=new DrivingTerm();
-            bool secondmenucontinue = true;
-            string backcontrol = "1";
-            int numberchoosemenu2;
-            while (secondmenucontinue)
+        static void TermItem(int ismainmenu)
+        {
+            DrivingTerm drivingTerm = new DrivingTerm();
+            bool secondMenuContinue = true;
+            string backControl = "1";
+            int numberChooseMenu;
+            while (secondMenuContinue)
             {
-                if (backcontrol == "1")
+                if (backControl == "1")
                 {
                     Console.Clear();
                 }
 
-                numberchoosemenu2 = Menu("Driving Term", ismainmenu);
+                numberChooseMenu = Menu("Driving Term", ismainmenu);
 
-                switch (numberchoosemenu2)
+                switch (numberChooseMenu)
                 {
                     case 1:
-                        termcounter = drivingTerm.registreation(termcounter, termarray);
+                        drivingTerm.Registreation();
                         break;
-
                     case 2:
-                        drivingTerm.list(termcounter, termarray);
+                        drivingTerm.List();
                         break;
                     case 3:
-                        Console.WriteLine("please enter termlcode  ");
-                        string termlcode = Console.ReadLine();
-                        drivingTerm.Edite(termlcode, termcounter, termarray);
+                        drivingTerm.Edite();
                         break;
                     case 4:
-                        Console.WriteLine("please enter termcode  ");
-                        termlcode = Console.ReadLine();
-                        termcounter = drivingTerm.Delete(termlcode, termcounter, termarray);
+                        drivingTerm.Delete();
                         break;
                     case 5:
                         ismainmenu = 1;
-                        secondmenucontinue = false;
+                        secondMenuContinue = false;
                         break;
 
                 }
@@ -223,12 +205,11 @@ namespace driving_center
                     do
                     {
                         Console.WriteLine("Enter NUMBER 1 TO BACK");
-                        backcontrol = Console.ReadLine();
+                        backControl = Console.ReadLine();
 
-                    } while (backcontrol != "1");
+                    } while (backControl != "1");
                 }
             }
-            return termcounter;
         }
         static int Menu(string input, int ismainmenu)
         {
@@ -273,7 +254,7 @@ namespace driving_center
                 catch (Exception e)
                 {
                     Console.Clear();
-                    Console.WriteLine("Please Just Insert A Number ");
+                    Console.WriteLine(e.Message +" Please Just Insert A Number ");
 
                 }
             } while (menucontineu);
@@ -281,47 +262,33 @@ namespace driving_center
         }
         static void Main(string[] arg)
         {
+            int isMainMenu = 1;
+            int backControl = 1;
 
-            string[,] machinearray = new string[20, 5];
-            string[,] instructorarray = new string[20, 5];
-            string[,] studentarray = new string[20, 4];
-            string[,] termarray=new string[20, 5];
-          
-            int machinecounter = 0;
-            int studentcounter = 0;
-            int instructioncounter = 0;
-            int termcounter = 0;
-            // int machinecounter = machinearray.Count;
-            int ismainmenu = 1;
-            int backcontrol = 1;
-          
-            bool secondmenucontinue = true;
-            bool firstdmenucontinue = true;
-            
-            while (firstdmenucontinue)
+            bool secondMenuContinue = true;
+            bool firstdMenuContinue = true;
+
+            while (firstdMenuContinue)
             {
-                int numberchoosemenu = Menu("", 1);
-                ismainmenu = 0;
-                int numberchoosemenu2;
-                switch (numberchoosemenu)
+                int numberChooseMenu = Menu("", 1);
+                isMainMenu = 0;
+                int numberChooseMenu2;
+                switch (numberChooseMenu)
                 {
                     case 1:
-                        machinecounter = Machineitem(ismainmenu, machinecounter, machinearray);
+                        MachineItem(isMainMenu);
                         break;
                     case 2:
-                        instructioncounter = instructoritem(ismainmenu, instructioncounter, instructorarray);
-
+                        InstructorItem(isMainMenu);
                         break;
                     case 3:
-                        studentcounter = Studentitem(ismainmenu, studentcounter, studentarray);
+                        StudentItem(isMainMenu);
                         break;
                     case 4:
-                        termcounter = termitem(ismainmenu, termcounter, termarray);
+                        TermItem(isMainMenu);
                         break;
                     case 5:
-                        //Console.Clear();
                         System.Environment.Exit(0);
-                       // firstdmenucontinue = false;
                         break;
                 }
 
